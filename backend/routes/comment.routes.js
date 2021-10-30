@@ -11,15 +11,10 @@ const pool = new Pool({
     port: '5432'
 });
 
-router.get('/', async (req, res) => {
-    const publications = await pool.query('SELECT * FROM publications WHERE deleted = false');
-    res.status(200).json(publications.rows);
-});
-
 router.get('/:id', async (req, res) => {
-    const id = req.params.id;
-    const publication = await pool.query('SELECT * FROM publications WHERE id = $1', [id]);
-    res.status(200).json(publication.rows[0]);
+    const publication_id = req.params.id;
+    const comments = await pool.query('SELECT * FROM comments WHERE deleted = false AND publication = $1', [publication_id]);
+    res.status(200).json(comments.rows);
 });
 
 router.get('/:id/likes', async (req, res) => {

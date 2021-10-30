@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {Link} from "react-router-dom";
+import {TextField} from "@mui/material";
 
 class PublicationsListComponent extends Component {
 
@@ -23,21 +25,33 @@ class PublicationsListComponent extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="col col-4 mt-5">
-                    Publications List
-                </div>
-                <div className="col col-8 mt-5">
-                    {
-                        this.state.publications.map((publication) => {
-                            return (
-                                <div key={publication._id}>
-                                    <h1>{publication.title}</h1>
-                                    <h2>{publication.subtitle}</h2>
-                                </div>
-                            );
-                        })
-                    }
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-9">
+                        {
+                            this.state.publications.map((publication) => {
+                                return (
+                                    <div key={publication.id} className="mb-4">
+                                        <h3><Link to="/publications/1">{publication.title}</Link></h3>
+                                        <p>{publication.created} | {publication.author} | 1 comment</p>
+                                        <h6>{publication.subtitle}</h6>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+                    <div className="col-3">
+                        <div className="row">
+                            <TextField
+                                margin="dense"
+                                id="search"
+                                label="Buscar"
+                                type="email"
+                                fullWidth
+                                variant="standard"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         );
