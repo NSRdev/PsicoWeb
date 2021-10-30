@@ -22,7 +22,7 @@ class NavigationComponent extends Component {
                     <div className="navbar-nav">
                         <Link className="nav-item nav-link" to="/users">Usuarios</Link>
                         <Link className="nav-item nav-link" to="/publications">Publicaciones</Link>
-                        <Link className="nav-item nav-link" to="/publications/6175f1c9b2b95f14803e801f">Publicación</Link>
+                        <Link className="nav-item nav-link" to="/publications/1">Publicación</Link>
                     </div>
                 </div>
                 <LoginComponent />

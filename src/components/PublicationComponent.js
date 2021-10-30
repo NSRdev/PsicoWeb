@@ -11,33 +11,32 @@ class PublicationComponent extends Component {
         this.state = {
             title: "",
             subtitle: "",
-            lead: "",
-            body: "",
+            heading: "",
+            content: "",
             author: "",
             created: null,
             updated: null,
             deleted: null,
             premium: null,
-            like: false,
+            like: false
         }
     }
 
     componentDidMount() {
-        const id = "6175f1c9b2b95f14803e801f";
+        const id = "1";
         fetch('http://localhost:5000/publications/' + id)
             .then(res => res.json())
             .then(data => {
                 this.setState({
                     title: data.title,
                     subtitle: data.subtitle,
-                    lead: data.lead,
-                    body: data.body,
+                    heading: data.heading,
+                    content: data.body,
                     author: data.author,
                     created: data.created,
                     updated: data.updated,
                     deleted: data.deleted,
-                    premium: data.premium,
-                    like: data.like
+                    premium: data.premium
                 })
             })
             .catch(err => console.log(err));
@@ -53,8 +52,8 @@ class PublicationComponent extends Component {
                     </div>
                     <h1 className="">{this.state.title}</h1>
                     <h2>{this.state.subtitle}</h2>
-                    <p className="mt-2">{this.state.lead}</p>
-                    <p className="mt-3">{this.state.body}</p>
+                    <p className="mt-2">{this.state.heading}</p>
+                    <p className="mt-3">{this.state.content}</p>
                     <p className="text-end">{this.state.author}</p>
                     {
                         this.state.like ? <FavoriteIcon style={{ color: "red" }} onClick={() => {this.setState({like: false})}}/>

@@ -1,46 +1,41 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const express = require('express');
+const router = express.Router();
 
-const PublicationSchema = new Schema({
-    title: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    subtitle: {
-        type: String,
-        required: false,
-        trim: true
-    },
-    lead: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    body: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    author: {
-        type: String,
-        required: true
-    },
-    created: {
-        type: Date,
-        required: true
-    },
-    updated: {
-        type: Date
-    },
-    deleted: {
-        type: Boolean,
-        required: true
-    },
-    premium: {
-        type: Boolean,
-        required: true
-    },
+const { Pool } = require('pg');
+
+const pool = new Pool({
+    host: 'localhost',
+    user: 'dbadmin',
+    password: 'dbadmin',
+    database: 'psicoweb',
+    port: '5432'
 });
 
-module.exports = mongoose.model('Publication', PublicationSchema);
+router.get('/', async (req, res) => {
+    const publications = await pool.query('SELECT * FROM publications');
+    res.status(200).json(publications.rows);
+});
+
+router.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    const publication = await pool.query('SELECT * FROM publications WHERE id = $1', [id]);
+    res.status(200).json(publication.rows);
+});
+
+router.post('/create', async (req, res) => {
+    const { title, subtitle, heading, content, author, premium } = req.body;
+    const timestamp = new Date();
+
+    await pool.query('INSERT INTO publications (title, subtitle, heading, content, premium, author, created, updated) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [title, subtitle, heading, content, premium, author, timestamp, timestamp]);
+
+    res.status(200).send('PUBLICATION CREATED');
+});
+
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+    await pool.query('UPDATE publications SET deleted = true WHERE id = $1', [id]);
+    res.status(200).send('PUBLICATION DELETED');
+});
+
+
+module.exports = router;

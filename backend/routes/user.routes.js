@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
-
 
 const { Pool } = require('pg');
 
@@ -9,37 +7,44 @@ const pool = new Pool({
     host: 'localhost',
     user: 'dbadmin',
     password: 'dbadmin',
-    database: 'PsicoDB',
+    database: 'psicoweb',
     port: '5432'
 });
 
-
-router.get('/get', async (req, res) => {
-    const users = await pool.query('SELECT * FROM users');
-    console.log(users.rows);
-    res.json(users);
-})
-
-
 router.get('/', async (req, res) => {
-    const users = await User.find();
-    res.json(users);
+    const users = await pool.query('SELECT * FROM users');
+    res.status(200).json(users.rows);
+});
+
+router.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    const user = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+    res.status(200).json(user.rows);
 });
 
 router.post('/create', async (req, res) => {
     const { email, password, name, lastname } = req.body;
-    const deleted = false;
-    const blocked = false;
-    const premium = false;
-    const created = new Date();
-    const updated = new Date();
+    const timestamp = new Date();
 
-    console.log("USER: " + email + " | " + password + " | " + name + " | " + lastname);
+    await pool.query('INSERT INTO users (email, password, name, lastname, created, updated) VALUES ($1, $2, $3, $4, $5, $6)', [email, password, name, lastname, timestamp, timestamp]);
 
-    const user = new User({ email, password, name, lastname, created, updated, deleted, blocked, premium });
-    await user.save();
+    res.status(200).send('USER CREATED');
+});
 
-    res.json({success: 'CREATED'});
+router.put('/update/:id', async (req, res) => {
+    const { email, password, name, lastname } = req.body;
+    const id = req.params.id;
+    const timestamp = new Date();
+
+    const response = await pool.query('UPDATE users SET email = $2, password = $3, name = $4, lastname = $5, updated = $6 WHERE id = $1', [id, email, password, name, lastname, timestamp]);
+
+    res.status(200).json(response);
+});
+
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+    await pool.query('UPDATE users SET deleted = true WHERE id = $1', [id]);
+    res.status(200).send('USER DELETED');
 });
 
 module.exports = router;
