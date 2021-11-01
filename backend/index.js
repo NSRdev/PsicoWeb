@@ -10,7 +10,6 @@ app.use(cors());
 
 app.use('/users', require('./routes/user.routes'));
 app.use('/publications', require('./routes/publication.routes'));
-app.use('/comments', require('./routes/comment.routes'));
 
 app.listen(app.get('port'), () => {
     console.log('Server running on port', app.get('port'));
