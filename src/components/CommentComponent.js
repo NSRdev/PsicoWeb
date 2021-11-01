@@ -1,40 +1,18 @@
-import React, {Fragment} from "react";
+import {Paper} from "@mui/material";
+import React from "react";
+import moment from "moment";
 
-class CommentComponent extends Component {
+function CommentFunction(props) {
+    return (
+        <Paper key={props.id} className="p-3 mb-4" elevation={1}>
+            <p>{props.content}</p>
 
-    constructor() {
-        super();
-        this.state = {
-            id: "",
-            content: "",
-            user: "",
-            deleted: false
-        }
-    }
-
-
-    render() {
-        return (
-            <Fragment>
-                <div className="row mt-5">
-                    <h4>¡Deja tu comentario!</h4>
-
-                </div>
-                <div className="row mt-5">
-                    {
-                        this.state.comment.map((comment) => {
-                            return (
-                                <div key={comment.id} className="mb-4">
-                                    <p>{comment.content}</p>
-                                    <h6>{comment.user}</h6>
-                                </div>
-                            );
-                        })
-                    }
-                </div>
-            </Fragment>
-        );
-    }
+            <div className="row">
+                <p className="col col-6">{moment(props.created).format('DD/MM/YYYY hh:mm')}</p>
+                <p className="col col-6 text-end ">{props.user}</p>
+            </div>
+        </Paper>
+    );
 }
 
-export default CommentComponent;
+export default CommentFunction;
