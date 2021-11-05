@@ -1,5 +1,7 @@
 import React, {Component, Fragment} from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import PasswordIcon from '@mui/icons-material/Password';
 
 class LoginComponent extends Component {
 
@@ -28,32 +30,40 @@ class LoginComponent extends Component {
                     id="loginDialog"
                     open={this.state.showLoginModal}
                     onClose={this.handleLogin}
+                    fullWidth
                 >
                     <DialogTitle>Iniciar sesión</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="email"
-                            label="Correo electrónico"
-                            type="email"
-                            fullWidth
-                            variant="standard"
-                        />
 
-                        <TextField
-                            margin="dense"
-                            id="password"
-                            label="Contraseña"
-                            type="password"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <DialogActions>
-                            <Button onClick={this.handleLogin}>Cerrar</Button>
-                            <Button onClick={this.handleLogin}>Acceder</Button>
-                        </DialogActions>
+                    <DialogContent>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                            <MailOutlineIcon sx={{ color: 'lightblue', mr: 1, my: 0.5 }} />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="email"
+                                label="Correo electrónico"
+                                type="email"
+                                fullWidth
+                                variant="standard"
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                            <PasswordIcon sx={{ color: 'lightblue', mr: 1, my: 0.5 }} />
+                            <TextField
+                                margin="dense"
+                                id="password"
+                                label="Contraseña"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                            />
+                        </Box>
                     </DialogContent>
+
+                    <DialogActions>
+                        <Button onClick={this.handleLogin}>Cerrar</Button>
+                        <Button onClick={this.handleLogin}>Acceder</Button>
+                    </DialogActions>
                 </Dialog>
             </Fragment>
         );

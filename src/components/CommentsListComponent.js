@@ -7,20 +7,24 @@ class CommentsListComponent extends Component {
     constructor() {
         super();
         this.state = {
-            content: "",
+            publication: 0,
+            comment: "",
             comments: []
         }
 
         this.getComments = this.getComments.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleComment = this.handleComment.bind(this);
         this.createComment = this.createComment.bind(this);
     }
 
     handleComment() {
         this.setState({
-            content: "",
+            comment: "",
+            publication: this.props.publication
+        }, () => {
+            this.getComments();
         });
-        this.getComments();
     }
 
     componentDidMount() {
@@ -28,8 +32,8 @@ class CommentsListComponent extends Component {
     }
 
     getComments() {
-        const id = 1;
-        fetch('http://localhost:5000/publications/' + id + '/comments')
+        console.log("PUBLICATION: " + this.state.publication);
+        fetch('http://localhost:5000/publications/' + this.state.publication + '/comments')
             .then(res => res.json())
             .then(data => {
                 this.setState({
@@ -46,24 +50,25 @@ class CommentsListComponent extends Component {
     }
 
     createComment() {
-        const id = 1;
-        fetch('http://localhost:5000/publications/' + id + '/comments/create', {
-            method: 'POST',
-            body: JSON.stringify({
-                "user": 1,
-                "publication": 1,
-                "content": this.state.content
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(() => {
-                this.handleComment();
+        if (this.state.content.length > 0) {
+            fetch('http://localhost:5000/publications/' + this.state.publication + '/comments/create', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "user": 1,
+                    "publication": 1,
+                    "comment": this.state.comment
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
             })
-            .catch(err => console.error(err));
-        this.getComments();
+                .then(() => {
+                    this.handleComment();
+                })
+                .catch(err => console.error(err));
+            this.getComments();
+        }
     }
 
 
@@ -95,7 +100,7 @@ class CommentsListComponent extends Component {
                     {
                         this.state.comments.map((comment) => {
                             return (
-                                <CommentComponent key={comment.id} id={comment.id} content={comment.content} user={comment.user} created={comment.created}/>
+                                <CommentComponent key={comment.id} id={comment.id} comment={comment.comment} user={comment.user} created={comment.created}/>
                             );
                         })
                     }

@@ -143,11 +143,11 @@ class RegisterComponent extends Component {
                             onChange={this.handleChange}
                             value={this.state.lastname}
                         />
-                        <DialogActions>
-                            <Button onClick={this.handleRegister}>Cerrar</Button>
-                            <Button onClick={this.createUser}>Registrarse</Button>
-                        </DialogActions>
                     </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleRegister}>Cerrar</Button>
+                        <Button onClick={this.createUser}>Registrarse</Button>
+                    </DialogActions>
                 </Dialog>
                 {
                     this.state.showSuccessAlert &&

@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import moment from "moment";
-import {Chip, Divider, Paper} from "@mui/material";
+import {Divider, Paper} from "@mui/material";
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentsListComponent from "./CommentsListComponent";
 
 class PublicationComponent extends Component {
-    constructor() {
-        super();
+
+    constructor(props) {
+        super(props);
         this.state = {
+            id: this.props.match.params.id,
             title: "",
             subtitle: "",
             heading: "",
@@ -23,7 +25,6 @@ class PublicationComponent extends Component {
             likes: 0
         }
 
-
         this.handleLike = this.handleLike.bind(this);
     }
 
@@ -34,11 +35,11 @@ class PublicationComponent extends Component {
     }
 
     getPublication() {
-        const id = "1";
-        fetch('http://localhost:5000/publications/' + id)
+        fetch('http://localhost:5000/publications/' + this.state.id)
             .then(res => res.json())
             .then(data => {
                 this.setState({
+                    id: data.id,
                     title: data.title,
                     subtitle: data.subtitle,
                     heading: data.heading,
@@ -54,8 +55,7 @@ class PublicationComponent extends Component {
     }
 
     getLikes() {
-        const id = "1";
-        fetch('http://localhost:5000/publications/' + id + '/likes')
+        fetch('http://localhost:5000/publications/' + this.state.id + '/likes')
             .then(res => res.json())
             .then(data => {
                 this.setState({
@@ -66,8 +66,7 @@ class PublicationComponent extends Component {
     }
 
     hasLiked() {
-        const id = "1";
-        fetch('http://localhost:5000/publications/' + id + '/likes/' + id)
+        fetch('http://localhost:5000/publications/' + this.state.id + '/likes/' + 1)
             .then(res => res.json())
             .then(data => {
                 this.setState({
@@ -78,15 +77,13 @@ class PublicationComponent extends Component {
     }
 
     handleLike() {
-        const id = "1";
         if (this.state.like) {
-            fetch('http://localhost:5000/publications/' + id + '/likes/delete', {
+            fetch('http://localhost:5000/publications/' + this.state.id + '/likes/' + 1, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({user: id})
+                }
             })
                 .then(() => {
                     this.setState({
@@ -96,13 +93,12 @@ class PublicationComponent extends Component {
                 })
                 .catch(err => console.log(err));
         } else {
-            fetch('http://localhost:5000/publications/' + id + '/likes/add', {
+            fetch('http://localhost:5000/publications/' + this.state.id + '/likes/' + 1, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({user: id})
+                }
             })
                 .then(() => {
                     this.setState({
@@ -138,15 +134,14 @@ class PublicationComponent extends Component {
                             {
                                 this.state.likes > 1 ? <p className="fst-italic small">A {this.state.likes} usuarios/as les ha gustado esta publicación</p>
                                     : <p className="fst-italic small">A {this.state.likes} usuario/a le ha gustado esta publicación</p>
-
                             }
                         </div>
                         </div>
 
                 </Paper>
 
-                <Divider textAlign="center" className="mt-5 mb-4"><Chip label="Comentarios"/></Divider>
-                <CommentsListComponent />
+                <Divider textAlign="left" className="mt-5 mb-4">Comentarios</Divider>
+                <CommentsListComponent publication={this.state.id}/>
 
             </div>
         );

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import {TextField} from "@mui/material";
+import moment from "moment";
 
 class PublicationsListComponent extends Component {
 
@@ -32,8 +33,8 @@ class PublicationsListComponent extends Component {
                             this.state.publications.map((publication) => {
                                 return (
                                     <div key={publication.id} className="mb-4">
-                                        <h3><Link to="/publications/1">{publication.title}</Link></h3>
-                                        <p>{publication.created} | {publication.author} | 1 comment</p>
+                                        <h3><Link to={`/publications/${publication.id}`}>{publication.title}{publication.id}</Link></h3>
+                                        <p>{moment(this.state.created).format('DD/MM/YYYY hh:mm')} | {publication.author}</p>
                                         <h6>{publication.subtitle}</h6>
                                     </div>
                                 );

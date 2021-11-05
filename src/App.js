@@ -12,7 +12,7 @@ function App() {
         <NavigationComponent/>
         <Route path='/users' component={UsersListComponent} exact/>
         <Route path='/publications' component={PublicationsListComponent} exact/>
-        <Route path='/publications/1' component={PublicationComponent} exact/>
+        <Route path='/publications/:id' component={PublicationComponent} exact/>
       </Router>
   );
 }
