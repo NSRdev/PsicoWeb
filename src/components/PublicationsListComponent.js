@@ -33,7 +33,7 @@ class PublicationsListComponent extends Component {
                             this.state.publications.map((publication) => {
                                 return (
                                     <div key={publication.id} className="mb-4">
-                                        <h3><Link to={`/publications/${publication.id}`}>{publication.title}{publication.id}</Link></h3>
+                                        <h3><Link to={`/publications/${publication.id}`}>{publication.id}. {publication.title}</Link></h3>
                                         <p>{moment(this.state.created).format('DD/MM/YYYY hh:mm')} | {publication.author}</p>
                                         <h6>{publication.subtitle}</h6>
                                     </div>

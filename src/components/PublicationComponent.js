@@ -16,7 +16,7 @@ class PublicationComponent extends Component {
             subtitle: "",
             heading: "",
             content: "",
-            author: "",
+            user: "",
             created: null,
             updated: null,
             deleted: null,
@@ -39,16 +39,16 @@ class PublicationComponent extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    id: data.id,
-                    title: data.title,
-                    subtitle: data.subtitle,
-                    heading: data.heading,
-                    content: data.content,
-                    author: data.author,
-                    created: data.created,
-                    updated: data.updated,
-                    deleted: data.deleted,
-                    premium: data.premium
+                    id: data[0].id,
+                    title: data[0].title,
+                    subtitle: data[0].subtitle,
+                    heading: data[0].heading,
+                    content: data[0].content,
+                    user: data[0].user,
+                    created: data[0].created,
+                    updated: data[0].updated,
+                    deleted: data[0].deleted,
+                    premium: data[0].premium
                 })
             })
             .catch(err => console.log(err));
@@ -59,7 +59,7 @@ class PublicationComponent extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    likes: data.count
+                    likes: data[0].count
                 })
             })
             .catch(err => console.log(err));
@@ -70,7 +70,7 @@ class PublicationComponent extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    like: (data == null ? false : !data.deleted)
+                    like: (data[0] != null)
                 })
             })
             .catch(err => console.log(err));
@@ -122,7 +122,7 @@ class PublicationComponent extends Component {
                     <h2>{this.state.subtitle}</h2>
                     <p className="mt-2">{this.state.heading}</p>
                     <p className="mt-3">{this.state.content}</p>
-                    <p className="text-end">{this.state.author}</p>
+                    <p className="text-end">{this.state.user}</p>
                     <div className="row">
                         <div className="col col-1">
                             {
@@ -132,8 +132,7 @@ class PublicationComponent extends Component {
                         </div>
                         <div className="col col-11">
                             {
-                                this.state.likes > 1 ? <p className="fst-italic small">A {this.state.likes} usuarios/as les ha gustado esta publicación</p>
-                                    : <p className="fst-italic small">A {this.state.likes} usuario/a le ha gustado esta publicación</p>
+                                this.state.likes > 1 ? <p className="fst-italic small">A {this.state.likes} usuarios/as les ha gustado esta publicación</p> : <span/>
                             }
                         </div>
                         </div>

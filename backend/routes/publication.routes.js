@@ -19,7 +19,7 @@ router.delete('/:id', publicationController.deletePublication);
 
 
 // LIKES
-router.get('/:publication/likes', likeController.getLikes);
+router.get('/:publication/likes', likeController.countLikes);
 
 router.get('/:publication/likes/:user', likeController.getUserLike);
 

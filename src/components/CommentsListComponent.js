@@ -50,12 +50,12 @@ class CommentsListComponent extends Component {
     }
 
     createComment() {
-        if (this.state.content.length > 0) {
-            fetch('http://localhost:5000/publications/' + this.state.publication + '/comments/create', {
+        if (this.state.comment.length > 0) {
+            fetch('http://localhost:5000/publications/' + this.state.publication + '/comments', {
                 method: 'POST',
                 body: JSON.stringify({
                     "user": 1,
-                    "publication": 1,
+                    "publication": this.state.publication,
                     "comment": this.state.comment
                 }),
                 headers: {
@@ -80,14 +80,14 @@ class CommentsListComponent extends Component {
                         <TextField
                             required
                             fullWidth
-                            id="content"
-                            name="content"
+                            id="comment"
+                            name="comment"
                             label="¿Qué te ha parecido?"
                             multiline
                             maxRows="8"
                             variant="standard"
                             onChange={this.handleChange}
-                            value={this.state.content}
+                            value={this.state.comment}
                         />
                     </div>
                     <div className="col-2 text-end">

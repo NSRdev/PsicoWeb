@@ -35,7 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "migrate": "npx knex migrate:latest --knexfile .\\backend\\knexfile.js"
+    "knex": "npx knex migrate:make init --migrations-directory backend/migrations",
+    "migrate": "npx knex migrate:latest --knexfile backend/knexfile.js"
   },
   "eslintConfig": {
     "extends": [

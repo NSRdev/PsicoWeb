@@ -25,6 +25,11 @@ class LikeService {
         const {publication, user} = reqBody;
         return likeDAO.addLike(publication, user);
     }
+
+    async countLike(reqParams) {
+        const {publication} = reqParams;
+        return likeDAO.countLikes(publication);
+    }
 }
 
 module.exports = new LikeService();

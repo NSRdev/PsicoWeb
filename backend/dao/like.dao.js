@@ -38,6 +38,14 @@ class LikeDAO {
             .where('user', '=', user)
             .returning('id');
     }
+
+    async countLikes(publication) {
+        return db('likes')
+            .count()
+            .where('publication', '=', publication)
+            .where('deleted', false)
+            .returning('id');
+    }
 }
 
 module.exports = new LikeDAO();

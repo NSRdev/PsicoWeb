@@ -54,6 +54,15 @@ class LikeController {
             res.status(500).json('Something went wrong!');
         }
     }
+
+    async countLikes(req, res) {
+        try {
+            const count = await likeService.countLike(req.params);
+            res.status(200).json(count);
+        } catch (err) {
+            res.status(500).json('Something went wrong!');
+        }
+    }
 }
 
 module.exports = new LikeController();
