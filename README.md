@@ -1,3 +1,13 @@
+# PsicoWeb
+Psychology blog that combines free teaching with social interaction. Currently, it has a user registration system, posts with likes and comments section, administrator profile to manage the website, ...
+
+Full stack web application developed under NodeJS (Express) for the backend (in combination with a PostgreSQL database) and React for the frontend.
+
+This project is under development.
+
+-----
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
